@@ -41,7 +41,7 @@ args = parser.parse_args()
 def subprocess_check_output(command):
     return subprocess.check_output(command.strip().split(' '))
 
-@contract(blocks='int,>0', returns=str)
+@contract(blocks='int,>=0', returns='str, !None')
 def bytes_to_readable(blocks):
     byts = blocks * 512
     readable_bytes = byts
@@ -54,8 +54,8 @@ def bytes_to_readable(blocks):
     return '{:.2f}{}'.format(round(byts/(1024.0**count), 2), labels[count])
 
 
-@contract(depth=int, file_tree='dict(str:dict(str:(str,!None)|list|(int,>0)))',
-          file_tree_node='dict(str:(str,!None)|list|(int,>0))', path='str, !None',
+@contract(depth=int, file_tree='dict(str:dict(str:(str,!None)|list|(int,>=0)))',
+          file_tree_node='dict(str:(str,!None)|list|(int,>=0))', path='str, !None',
           largest_size='int,>=0', total_size='int,>=0')
 def print_tree(file_tree, file_tree_node, path, largest_size, total_size,
                depth=0):
